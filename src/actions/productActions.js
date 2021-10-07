@@ -14,7 +14,8 @@ export const listProduct = () => async(dispatch)=>{
     try {
         dispatch({type: PRODUCT_LIST_REQUEST});
 
-        const {data} = await getProducts()
+        const {data} = await getProducts();
+
   //    const {data} = await axios.get('/get-products')
 
   // useEffect(() => {

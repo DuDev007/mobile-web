@@ -7,9 +7,16 @@ import { getProductComments,createComments } from "../service/Api";
 import { useSelector, useDispatch } from "react-redux";
 import { listProductDetails } from "../actions/productActions";
 import { CART_ADD_ITEM } from "../constants/cartConstants";
+import Pagination from "react-js-pagination";
 
 export default function Product() {
   // const dispatch = useDispatch();
+  const [pagination,setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    pageSize: 5
+  });
+  
 
   const params = useParams();
   // const [detail, setDetail] = useState({});
@@ -45,14 +52,30 @@ export default function Product() {
 
   useEffect(() => {
     const getComments = async () => {
-      const result2 = await getProductComments(params?.id); //
+      
+      const result2 = await getProductComments(params?.id,{
+        limit: pagination.pageSize,
+        skip:pagination.pageSize*(pagination.currentPage-1)
+      }); //
       setCommentsList(result2.data.data);
       setIsCreateCmt(false);
+      setPagination(prev=>({
+        ...prev,
+        totalPages:result2.data.total
+      }));
     };
     params?.id && getComments();
-  }, [params?.id,isCreateCmt]);
+  }, [params?.id,isCreateCmt,pagination.currentPage]);
 
 
+  const handlePageChange =(page)=>{
+    console.log(`active page is ${page}`);
+      setPagination(prev=>({
+        ...prev,
+        currentPage:page
+      }));
+      
+  }
   
   return (
     <>
@@ -118,7 +141,18 @@ export default function Product() {
         </div>
       </div>
 
-      <div id="pagination">
+        <div>
+        <Pagination
+          activePage={pagination.currentPage}
+          itemsCountPerPage={pagination.pageSize}
+          totalItemsCount={pagination.totalPages}
+          pageRangeDisplayed={5}
+          onChange={handlePageChange}
+          itemClass="page-item"
+          linkClass="page-link"
+        />
+      </div>          
+      {/* <div id="pagination">
         <ul class="pagination">
           <li class="page-item">
             <a class="page-link" href="#">
@@ -146,7 +180,7 @@ export default function Product() {
             </a>
           </li>
         </ul>
-      </div>
+      </div> */}
     </>
   );
 }

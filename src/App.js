@@ -42,7 +42,7 @@ function App() {
                 <Route  path="/cart" component={cart}  />
                 <Route  path="/search" component={search}/>
                 <Route  path="/success" component={success}/>
-                <Route  path="/category" component={category}/>
+                <Route  path="/category/:id" component={category}/>
                 <Route exact path="/" component={home}/>
                 
               {/* <Home /> */}

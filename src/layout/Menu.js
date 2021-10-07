@@ -1,14 +1,16 @@
 import React , { useEffect, useState }  from "react";
+import { Link } from "react-router-dom";
 import {getCategories} from "../service/Api"
 
 export default function Menu() {
+  
 
   const [category, setCategory] = useState([])
 
   useEffect(() => {
     const getCategory = async () => {
        const result = await getCategories()
-        setCategory(result.data.data)
+       setCategory(result.data.data)
       
     }
     
@@ -25,7 +27,7 @@ export default function Menu() {
   
               {category.map((e)=>
               <li class="menu-item" key={e._id} >
-                  <a href="#" >{e.name}</a>
+                  <Link to={`/category/${e._id}`}>{e.name}</Link>
               </li>)}
             </ul>
           </div>

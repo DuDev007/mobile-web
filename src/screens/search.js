@@ -1,10 +1,24 @@
 
 // import Item from "../components/items";
-// import React ,{useState}from "react";
+import React ,{useState, useEffect}from "react";
+import { useLocation } from "react-router";
+import Item from "../components/items";
+import { getProducts } from "../service/Api";
 
 export default function Search() {
-  // const [data, setData] = useState({ hits: [] });
-  // const [search, setSearch] = useState('');
+  const location = useLocation();
+  const urlParams = new URLSearchParams(location.search)
+  const key = urlParams.get('query');
+   const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await getProducts({name:key});
+      setData(result.data.data);
+    };
+    fetchData();
+  }, [key]);
+
   
     return (
         <>
@@ -15,13 +29,8 @@ export default function Search() {
           </div>
           <div class="product-list card-deck">
             
-          {/* <ul>
-            {data.hits.map(item => (
-              <li key={Item.objectID}>
-                <a href={Item.url}>{Item.title}</a>
-              </li>
-            ))}
-          </ul> */}
+          
+          {data?.map(e => <Item data={e} key={e._id } />)}
             
           </div>
           

@@ -32,8 +32,8 @@ axios.interceptors.response.use(function (response) {
   return Promise.reject(error);
 });
 
-export const getProducts = () => instance.get('/get-products');
+export const getProducts = (params) => instance.get('/get-products',{params});
 export const getCategories = () => instance.get('/get-categories');
 export const getProductDetail = (productId) => instance.get(`/product/${productId}`);
-export const getProductComments = (productId) => instance.get(`/get-product-comments/${productId}`);
+export const getProductComments = (productId,params) => instance.get(`/get-product-comments/${productId}`,{params});
 export const createComments = (params) => instance.post('/create-comment',params);

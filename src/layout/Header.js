@@ -1,21 +1,21 @@
 import React ,{useState,useEffect}from "react";
-
-import axios from 'axios';
+import {useHistory} from  'react-router-dom'
+import { useSelector, useDispatch } from "react-redux";
 
 export default function Header() {
-  // const [data, setData] = useState({ hits: [] });
-  // const [query, setQuery] = useState('Iphone');
-  // const [search, setSearch] = useState('');
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const result = await axios(
-  //       `https://mobileshop.hungvu.net/search?query=${query}`,
-  //     );
-  //     setData(result.data);
-  //   };
-  //   fetchData();
-  // }, [query]);
+  const [keyword, setKeyWord] = useState();
+  const history = useHistory();
+ 
+  const cart = useSelector((state) => state.cart.cartItems);
+  
+  const submitHandler = (e) =>{
+      e.preventDefault();
+      if(keyword.trim()){
+        history.push(`/search?query=${keyword}`);
+      }else{
+        history.push('/')
+      }
+  }
   
   return (
     <div id="header">
@@ -35,13 +35,13 @@ export default function Header() {
                 type="search"
                 placeholder="Tìm kiếm"
                 aria-label="Search"
-                //  value={query}
-                //  onChange={e => setQuery(e.target.value)}
+                 value={keyword}
+                 onChange={e => setKeyWord(e.target.value)}
               />
               <button 
               class="btn btn-danger mt-3" 
               type="submit"
-              // onClick={() => setSearch(query)}
+              onClick={ submitHandler}
               >
                 Tìm kiếm
               </button>
@@ -51,7 +51,7 @@ export default function Header() {
             <a class="mt-4 mr-2" href="#/cart">
               giỏ hàng
             </a>
-            <span class="mt-3">8</span>
+            <span class="mt-3">{cart.length}</span>
           </div>
         </div>
       </div>

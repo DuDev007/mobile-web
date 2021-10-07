@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { CART_CHANGE_QTY_ITEM, CART_REMOVE_ITEM } from "../constants/cartConstants";
+import { CART_CHANGE_QTY_ITEM, CART_CLEAR_ITEM, CART_REMOVE_ITEM } from "../constants/cartConstants";
 
 export default function Cart() {
   const params = useParams();
@@ -10,7 +10,9 @@ export default function Cart() {
 
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cartItems);
-
+  let sumMoney = cart.reduce((a,e)=>{
+        return a + Number(e.price);
+    },0)
   // const { cartItems } = cart
 
 
@@ -28,6 +30,7 @@ export default function Cart() {
   dispatch({type:CART_REMOVE_ITEM,data:item})
 
 }
+
 
 
   return (
@@ -122,9 +125,11 @@ export default function Cart() {
                 </div>
               </div>
             );
+            
           })}
 
           <div class="row">
+        
             <div class="cart-thumb col-lg-7 col-md-7 col-sm-12">
               <button
                 id="update-cart"
@@ -139,7 +144,7 @@ export default function Cart() {
               <b>Tổng cộng:</b>
             </div>
             <div class="cart-price col-lg-3 col-md-3 col-sm-12">
-              <b>88.970.000đ</b>
+              <b>{sumMoney}</b>
             </div>
           </div>
         </form>
