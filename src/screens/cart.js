@@ -136,6 +136,7 @@ export default function Cart() {
                 class="btn btn-success"
                 type="submit"
                 name="sbm"
+                // onClick={onRemoveItem}
               >
                 Cập nhật giỏ hàng
               </button>
